@@ -1,0 +1,28 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(180deg, #9B2EFD 0%, #592AFC 100%);
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin: auto;
+    display: flex;
+}
+
+.container {
+    margin: auto;
+}
+
+.card {
+    margin: auto;
+    height: 90vh;
+    width: 85vw;
+    background-color: transparent;
+    border: none;
+    color: white;
+    text-align: center;
+}
+
+#avatar-card {
+    margin: auto;
+    width: 60%;
+}
