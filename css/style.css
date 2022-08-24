@@ -15,7 +15,7 @@ body {
 
 .card {
     margin: auto;
-    height: 90vh;
+    height: auto;
     width: 85vw;
     max-width: 500px;
     background-color: transparent;
