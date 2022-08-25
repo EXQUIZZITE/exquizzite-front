@@ -4,9 +4,9 @@ let bodyCard = document.getElementById('card-container')
 let wrapper = document.getElementById('wrapper')
 
 let questions = [] // Array of questions
-let count = 0 // iteration counter
-let questionsCategory = [] // Array of categories
-
+let count = 0  // iteration counterlet questionsCategory = [] // Array of categorie
+let countCorrect = 0 // iterion correct answers
+const theEnd = document.querySelector('#theEnd')
 function addCard(elem, categories, difficulty, numQuestions, type) {
   let body = document.createElement('div')
   body.setAttribute('class', 'setting')
@@ -19,13 +19,153 @@ function addCard(elem, categories, difficulty, numQuestions, type) {
   elem.appendChild(body)
 }
 
-function addQuestionTrueFalse(count, length, question) {
+
+function gameFinish() {
+  if (countCorrect > 7) {
+    Swal.fire({
+      icon: 'success',
+      title: 'You Win!👌',
+      showCancelButton: true,
+      cancelButtonText: 'Learn more',
+      confirmButtonText: 'Rematch!?',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        count = 0
+        countCorrect = 0
+        startGame()
+      } else {
+        window.location.href = "https://es.wikihow.com/jugar-Trivial-Pursuit"
+      }
+    })
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'You lost!👌',
+      showCancelButton: true,
+      confirmButtonText: 'Start new game!',
+      cancelButtonText: 'Learn more',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        count = 0
+        countCorrect = 0
+        startGame()
+      } else {
+        window.location.href = "https://es.wikihow.com/jugar-Trivial-Pursuit"
+      }
+    })
+  }
+}
+function addQuestionMultiple(count, result) {
+  let getRandom = Math.floor(Math.random() * 4)
+  let numQuestion = 0
+  let answers = ['', '', '', '']
+  console.log(result[count].correct_answer)
+  answers[getRandom] = result[count].correct_answer
+  for (let i = 0; i < 4; i++) {
+    if (answers[i] === '') {
+      answers[i] = result[count].incorrect_answers[numQuestion]
+      numQuestion++
+    }
+  }
+
+  wrapper.innerHTML = ''
   let bodyQuestion = document.createElement('div')
   bodyQuestion.setAttribute('class', 'card d-flex flex-column justify-content-center')
   bodyQuestion.innerHTML = `
             <div id="wrapper" class="card d-flex flex-column justify-content-center">
-                <h5 class="col">Question ${count + 1} of ${length}</h5>
-                <h1>${question}</h1>
+                <h5 class="col">Question ${count + 1} of ${result.length}</h5>
+                <p>Correct answers : ${countCorrect}</p>
+                <h1>${result[count].question}</h1>
+                <button value='True' type="button" class="btn btn-primary answer">${answers[0]}</button>
+                <button value='True' type="button" class="btn btn-primary answer">${answers[1]}</button>
+                <button value='True' type="button" class="btn btn-primary answer">${answers[2]}</button>
+                <button value='True' type="button" class="btn btn-primary answer">${answers[3]}</button>
+            </div> 
+        `
+  wrapper.appendChild(bodyQuestion)
+
+  let buttons = document.querySelectorAll(`.answer`)
+  console.log(buttons)
+  buttons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      if (e.target.innerText === result[count].correct_answer) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Good job!👌',
+          confirmButtonText: 'Next Question!',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        }).then(() => {
+          if (count === result.length - 1) {
+            gameFinish()
+          } else {
+            countCorrect++
+            count++
+            if (result[count].type === 'boolean') {
+              addQuestionTrueFalse(count, result)
+              count++
+            } else {
+              addQuestionMultiple(count, result)
+              count++
+            }
+          }
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Wrong answer!😱',
+          confirmButtonText: 'Next Question!',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        }).then(() => {
+          if (count === result.length - 1) {
+            gameFinish()
+          } else {
+            count++
+            if (result[count].type === 'boolean') {
+              addQuestionTrueFalse(count, result)
+              count++
+            } else {
+              addQuestionMultiple(count, result)
+              count++
+            }
+          }
+        })
+      }
+    })
+  })
+
+}
+
+function addQuestionTrueFalse(count, result) {
+  wrapper.innerHTML = ''
+  let bodyQuestion = document.createElement('div')
+  bodyQuestion.setAttribute('class', 'card d-flex flex-column justify-content-center')
+  bodyQuestion.innerHTML = `
+            <div id="wrapper" class="card d-flex flex-column justify-content-center">
+                <h5 class="col">Question ${count + 1} of ${result.length}</h5>
+                <p>Correct answers : ${countCorrect}</p>
+                <h1>${result[count].question}</h1>
                 <button id="answer-true" value='True' type="button" class="btn btn-primary">True</button>
                 <button id="answer-false" value='False' type="button" class="btn btn-primary">False</button>
             </div> 
@@ -35,42 +175,136 @@ function addQuestionTrueFalse(count, length, question) {
   let buttons = document.querySelectorAll(`#answer-true, #answer-false`)
   buttons.forEach(button => {
     button.addEventListener('click', (e) => {
-      console.log(e.target.value)
+      if (e.target.value === result[count].correct_answer) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Good job!👌',
+          confirmButtonText: 'Next Question!',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        }).then(() => {
+          if (count === result.length - 1) {
+            gameFinish()
+          } else {
+            countCorrect++
+            count++
+            if (result[count].type === 'boolean') {
+              addQuestionTrueFalse(count, result)
+              count++
+            } else {
+              addQuestionMultiple(count, result)
+              count++
+            }
+          }
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Wrong answer!😱',
+          confirmButtonText: 'Next Question!',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        }).then(() => {
+          if (count === result.length - 1) {
+            gameFinish()
+          } else {
+            count++
+            if (result[count].type === 'boolean') {
+              addQuestionTrueFalse(count, result)
+              count++
+            } else {
+              addQuestionMultiple(count, result)
+              count++
+            }
+          }
+        })
+      }
     })
   })
 }
 
+function startGame() {
+  theEnd.play()
+  axios
+    .get('https://opentdb.com/api.php?amount=15&difficulty=easy')
+    .then(function (response) {
+      let result = response.data.results
+      let questionType = []
+      let questionsCategory = [] // Array of categorie
+
+      // It takes an array of objects, and returns an array of unique values from the category property of each object.
+
+      result.forEach((elem) => {
+        questionsCategory.push(elem.category)
+        questionType.push(elem.type)
+      })
+
+      const filteredCategories = [... new Set(questionsCategory)]
+      const filteredType = [... new Set(questionType)]
+
+      addCard(bodyCard, filteredCategories, result[0].difficulty, result.length, filteredType)
+
+
+      wrapper.innerHTML = ''
+      theEnd.play()
+      if (result[0].type === 'boolean') {
+        addQuestionTrueFalse(count, result)
+        count++
+      } else {
+        addQuestionMultiple(count, result)
+        count++
+      }
+
+
+
+    }).catch(function (err) {
+      console.error(err);
+    })
+}
+
 axios
-  .get('https://opentdb.com/api.php?amount=15&difficulty=easy&type=boolean')
+  .get('https://opentdb.com/api.php?amount=15&difficulty=easy')
   .then(function (response) {
     let result = response.data.results
+    let questionType = []
+    let questionsCategory = [] // Array of categorie
 
-    /**
-     * It takes an array of objects, and returns an array of unique values from the category
-     * property of each object.
-     */
+    // It takes an array of objects, and returns an array of unique values from the category property of each object.
+
     result.forEach((elem) => {
       questionsCategory.push(elem.category)
+      questionType.push(elem.type)
     })
 
     const filteredCategories = [... new Set(questionsCategory)]
+    const filteredType = [... new Set(questionType)]
 
-    addCard(bodyCard, filteredCategories, result[0].difficulty, result.length, result[0].type)
+    addCard(bodyCard, filteredCategories, result[0].difficulty, result.length, filteredType)
 
     startBtn.addEventListener('click', (e) => {
       wrapper.innerHTML = ''
-      addQuestionTrueFalse(count, result.length, result[count].question)
-      count++
+      theEnd.play()
+      if (result[0].type === 'boolean') {
+        addQuestionTrueFalse(count, result)
+        count++
+      } else {
+        addQuestionMultiple(count, result)
+        count++
+      }
+
     })
 
   }).catch(function (err) {
     console.error(err);
   })
-
-
-
-
-
 
 
 
