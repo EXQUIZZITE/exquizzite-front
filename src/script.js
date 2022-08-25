@@ -2,6 +2,9 @@
 let startBtn = document.getElementById('start')
 let bodyCard = document.getElementById('card-container')
 let wrapper = document.getElementById('wrapper')
+let container = document.getElementsByClassName('container')
+
+
 
 let questions = [] // Array of questions
 let count = 0  // iteration counterlet questionsCategory = [] // Array of categorie
@@ -67,11 +70,11 @@ function gameFinish() {
     })
   }
 }
+
 function addQuestionMultiple(count, result) {
   let getRandom = Math.floor(Math.random() * 4)
   let numQuestion = 0
   let answers = ['', '', '', '']
-  console.log(result[count].correct_answer)
   answers[getRandom] = result[count].correct_answer
   for (let i = 0; i < 4; i++) {
     if (answers[i] === '') {
@@ -97,9 +100,10 @@ function addQuestionMultiple(count, result) {
   wrapper.appendChild(bodyQuestion)
 
   let buttons = document.querySelectorAll(`.answer`)
-  console.log(buttons)
   buttons.forEach(button => {
     button.addEventListener('click', (e) => {
+      container[0].style.filter = 'blur(4px)'
+      // this is success when answering
       if (e.target.innerText === result[count].correct_answer) {
         Swal.fire({
           icon: 'success',
@@ -112,6 +116,7 @@ function addQuestionMultiple(count, result) {
             popup: 'animate__animated animate__fadeOutUp'
           }
         }).then(() => {
+          container[0].style.filter = 'blur(0px)'
           if (count === result.length - 1) {
             gameFinish()
           } else {
@@ -127,6 +132,7 @@ function addQuestionMultiple(count, result) {
           }
         })
       } else {
+        // this is wrong answering
         Swal.fire({
           icon: 'error',
           title: 'Wrong answer!😱',
@@ -138,6 +144,7 @@ function addQuestionMultiple(count, result) {
             popup: 'animate__animated animate__fadeOutUp'
           }
         }).then(() => {
+          container[0].style.filter = 'blur(0px)'
           if (count === result.length - 1) {
             gameFinish()
           } else {
@@ -175,6 +182,8 @@ function addQuestionTrueFalse(count, result) {
   let buttons = document.querySelectorAll(`#answer-true, #answer-false`)
   buttons.forEach(button => {
     button.addEventListener('click', (e) => {
+      container[0].style.filter = 'blur(4px)'
+      // this is correct answering
       if (e.target.value === result[count].correct_answer) {
         Swal.fire({
           icon: 'success',
@@ -187,6 +196,7 @@ function addQuestionTrueFalse(count, result) {
             popup: 'animate__animated animate__fadeOutUp'
           }
         }).then(() => {
+          container[0].style.filter = 'blur(0px)'
           if (count === result.length - 1) {
             gameFinish()
           } else {
@@ -202,6 +212,7 @@ function addQuestionTrueFalse(count, result) {
           }
         })
       } else {
+        // this is wrong answering
         Swal.fire({
           icon: 'error',
           title: 'Wrong answer!😱',
@@ -213,6 +224,7 @@ function addQuestionTrueFalse(count, result) {
             popup: 'animate__animated animate__fadeOutUp'
           }
         }).then(() => {
+          container[0].style.filter = 'blur(0px)'
           if (count === result.length - 1) {
             gameFinish()
           } else {

@@ -25,6 +25,11 @@ body {
     text-align: center;
 }
 
+.blur {
+    display: none;
+    filter: blur(4px);
+}
+
 #avatar-card {
     margin: auto;
     width: 60%;
