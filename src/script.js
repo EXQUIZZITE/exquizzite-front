@@ -3,7 +3,7 @@ let startBtn = document.getElementById('start');
 let bodyCard = document.getElementById('card-container');
 let wrapper = document.getElementById('wrapper');
 let container = document.getElementsByClassName('container');
-let time = 30;
+let time = 10;
 // timertesting
 //let finished = false
 let questions = []; // Array of questions
@@ -16,13 +16,32 @@ function createChrono() {
   chrono = setInterval(() => {
     timeShow.innerText = `${time}`;
     time--;
+    if (time < 0) {
+      resetChrono();
+      count++;
+      failureQuestion();
+    }
   }, 1000);
 }
 
 function resetChrono() {
   clearInterval(chrono);
-  time = 30;
+  time = 10;
 }
+
+// function timeDown() {
+//   Swal.fire({
+//     icon: 'error',
+//     title: 'Time is out!😱',
+//     confirmButtonText: 'Next Question!',
+//     showClass: {
+//       popup: 'animate__animated animate__fadeInDown',
+//     },
+//     hideClass: {
+//       popup: 'animate__animated animate__fadeOutUp',
+//     },
+//   });
+// }
 
 function addCard(elem, categories, difficulty, numQuestions, type) {
   let body = document.createElement('div');
@@ -182,7 +201,6 @@ function addQuestionMultiple(count, result) {
 
   wrapper.appendChild(bodyQuestion);
   createChrono();
-  //chronometer()
   let buttons = document.querySelectorAll(`.answer`);
   buttons.forEach((button) => {
     button.addEventListener('click', (e) => {
@@ -198,7 +216,6 @@ function addQuestionMultiple(count, result) {
 }
 
 function addQuestionTrueFalse(count, result) {
-  //finished = true
   wrapper.innerHTML = '';
 
   let bodyQuestion = document.createElement('div');
@@ -218,7 +235,6 @@ function addQuestionTrueFalse(count, result) {
   `;
   wrapper.appendChild(bodyQuestion);
   createChrono();
-
   let buttons = document.querySelectorAll(`#answer-true, #answer-false`);
   buttons.forEach((button) => {
     button.addEventListener('click', (e) => {
