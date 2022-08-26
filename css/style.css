@@ -5,7 +5,8 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
     margin: auto;
-    display: flex;
+    display: grid;
+    place-items: center;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -42,4 +43,29 @@ body {
 
 .question-button {
     margin-top: 1em;
+}
+
+#counter {
+    display: grid;
+    place-items: center;
+    height: 50px;
+    width: 50px;
+    color: blue;
+    background-color: white;
+    border-radius: 100%;
+}
+
+#avatar-container {
+    margin: auto;
+    width: 80%;
+    height: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+#logo {
+    margin: auto;
+    width: 55%;
+    margin-bottom: 55%;
 }

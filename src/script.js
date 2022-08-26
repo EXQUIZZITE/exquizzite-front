@@ -4,8 +4,18 @@ let bodyCard = document.getElementById('card-container')
 let wrapper = document.getElementById('wrapper')
 let container = document.getElementsByClassName('container')
 
+// timertesting
+
+// let chronometer = function () {
+//   return time--
+// };
+// let chronometerId = setInterval(chronometer, 1000);
+// clearInterval(chronometerId);
 
 
+
+
+//let finished = false
 let questions = [] // Array of questions
 let count = 0  // iteration counterlet questionsCategory = [] // Array of categorie
 let countCorrect = 0 // iterion correct answers
@@ -22,6 +32,61 @@ function addCard(elem, categories, difficulty, numQuestions, type) {
   elem.appendChild(body)
 }
 
+const successQuestion = function (count, result) {
+  Swal.fire({
+    icon: 'success',
+    title: 'Good job!👌',
+    confirmButtonText: 'Next Question!',
+    showClass: {
+      popup: 'animate__animated animate__fadeInDown',
+    },
+    hideClass: {
+      popup: 'animate__animated animate__fadeOutUp',
+    },
+  }).then(() => {
+    container[0].style.filter = 'blur(0px)';
+    if (count === result.length - 1) {
+      gameFinish();
+    } else {
+      countCorrect++;
+      count++;
+      if (result[count].type === 'boolean') {
+        addQuestionTrueFalse(count, result);
+        count++;
+      } else {
+        addQuestionMultiple(count, result);
+        count++;
+      }
+    }
+  });
+}
+const failureQuestion = function (count, result) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Wrong answer!😱',
+    confirmButtonText: 'Next Question!',
+    showClass: {
+      popup: 'animate__animated animate__fadeInDown',
+    },
+    hideClass: {
+      popup: 'animate__animated animate__fadeOutUp',
+    },
+  }).then(() => {
+    container[0].style.filter = 'blur(0px)';
+    if (count === result.length - 1) {
+      gameFinish();
+    } else {
+      count++;
+      if (result[count].type === 'boolean') {
+        addQuestionTrueFalse(count, result);
+        count++;
+      } else {
+        addQuestionMultiple(count, result);
+        count++;
+      }
+    }
+  });
+}
 
 function gameFinish() {
   if (countCorrect > 7) {
@@ -82,82 +147,36 @@ function addQuestionMultiple(count, result) {
       numQuestion++
     }
   }
-
+  //finished = true
   wrapper.innerHTML = ''
   let bodyQuestion = document.createElement('div')
   bodyQuestion.setAttribute('class', 'card d-flex flex-column justify-content-center')
   bodyQuestion.innerHTML = `
-            <div id="wrapper" class="card d-flex flex-column justify-content-center">
-                <h5 class="col">Question ${count + 1} of ${result.length}</h5>
-                <p>Correct answers : ${countCorrect}</p>
-                <h1>${result[count].question}</h1>
-                <button value='True' type="button" class="btn btn-primary answer">${answers[0]}</button>
-                <button value='True' type="button" class="btn btn-primary answer">${answers[1]}</button>
-                <button value='True' type="button" class="btn btn-primary answer">${answers[2]}</button>
-                <button value='True' type="button" class="btn btn-primary answer">${answers[3]}</button>
-            </div> 
-        `
+  <div id="wrapper" class="card d-flex flex-column justify-content-center">
+  <h5 class="col">Question ${count + 1} of ${result.length}</h5>
+  <p>Correct answers : ${countCorrect}</p>
+  <h1>${result[count].question}</h1>
+  <button value='True' type="button" class="btn btn-primary answer">${answers[0]}</button>
+  <button value='True' type="button" class="btn btn-primary answer">${answers[1]}</button>
+  <button value='True' type="button" class="btn btn-primary answer">${answers[2]}</button>
+  <button value='True' type="button" class="btn btn-primary answer">${answers[3]}</button>
+  </div> 
+  `
   wrapper.appendChild(bodyQuestion)
 
+  //chronometer()
   let buttons = document.querySelectorAll(`.answer`)
   buttons.forEach(button => {
     button.addEventListener('click', (e) => {
+      // finished = true
       container[0].style.filter = 'blur(4px)'
       // this is success when answering
       if (e.target.innerText === result[count].correct_answer) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Good job!👌',
-          confirmButtonText: 'Next Question!',
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-          }
-        }).then(() => {
-          container[0].style.filter = 'blur(0px)'
-          if (count === result.length - 1) {
-            gameFinish()
-          } else {
-            countCorrect++
-            count++
-            if (result[count].type === 'boolean') {
-              addQuestionTrueFalse(count, result)
-              count++
-            } else {
-              addQuestionMultiple(count, result)
-              count++
-            }
-          }
-        })
+        successQuestion(count, result)
+
       } else {
-        // this is wrong answering
-        Swal.fire({
-          icon: 'error',
-          title: 'Wrong answer!😱',
-          confirmButtonText: 'Next Question!',
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-          }
-        }).then(() => {
-          container[0].style.filter = 'blur(0px)'
-          if (count === result.length - 1) {
-            gameFinish()
-          } else {
-            count++
-            if (result[count].type === 'boolean') {
-              addQuestionTrueFalse(count, result)
-              count++
-            } else {
-              addQuestionMultiple(count, result)
-              count++
-            }
-          }
-        })
+        failureQuestion(count, result)
+
       }
     })
   })
@@ -165,79 +184,34 @@ function addQuestionMultiple(count, result) {
 }
 
 function addQuestionTrueFalse(count, result) {
+  //finished = true
   wrapper.innerHTML = ''
+
   let bodyQuestion = document.createElement('div')
   bodyQuestion.setAttribute('class', 'card d-flex flex-column justify-content-center')
   bodyQuestion.innerHTML = `
-            <div id="wrapper" class="card d-flex flex-column justify-content-center">
-                <h5 class="col">Question ${count + 1} of ${result.length}</h5>
-                <p>Correct answers : ${countCorrect}</p>
-                <h1>${result[count].question}</h1>
-                <button id="answer-true" value='True' type="button" class="btn btn-primary">True</button>
-                <button id="answer-false" value='False' type="button" class="btn btn-primary">False</button>
-            </div> 
-        `
+  <div id="wrapper" class="card d-flex flex-column justify-content-center">
+  <h5 class="col">Question ${count + 1} of ${result.length}</h5>
+  <p>Correct answers : ${countCorrect}</p>
+  <h1>${result[count].question}</h1>
+  <button id="answer-true" value='True' type="button" class="btn btn-primary">True</button>
+  <button id="answer-false" value='False' type="button" class="btn btn-primary">False</button>
+  </div> 
+  `
   wrapper.appendChild(bodyQuestion)
-
+  //chronometer()
   let buttons = document.querySelectorAll(`#answer-true, #answer-false`)
   buttons.forEach(button => {
     button.addEventListener('click', (e) => {
+
       container[0].style.filter = 'blur(4px)'
       // this is correct answering
       if (e.target.value === result[count].correct_answer) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Good job!👌',
-          confirmButtonText: 'Next Question!',
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-          }
-        }).then(() => {
-          container[0].style.filter = 'blur(0px)'
-          if (count === result.length - 1) {
-            gameFinish()
-          } else {
-            countCorrect++
-            count++
-            if (result[count].type === 'boolean') {
-              addQuestionTrueFalse(count, result)
-              count++
-            } else {
-              addQuestionMultiple(count, result)
-              count++
-            }
-          }
-        })
+
+        successQuestion(count, result)
       } else {
-        // this is wrong answering
-        Swal.fire({
-          icon: 'error',
-          title: 'Wrong answer!😱',
-          confirmButtonText: 'Next Question!',
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-          }
-        }).then(() => {
-          container[0].style.filter = 'blur(0px)'
-          if (count === result.length - 1) {
-            gameFinish()
-          } else {
-            count++
-            if (result[count].type === 'boolean') {
-              addQuestionTrueFalse(count, result)
-              count++
-            } else {
-              addQuestionMultiple(count, result)
-              count++
-            }
-          }
-        })
+
+        failureQuestion(count, result)
       }
     })
   })
@@ -318,5 +292,21 @@ axios
     console.error(err);
   })
 
+
+
+// let timer = 30;
+// let chronometer = setInterval(function () {
+
+//   if (finished == true) {
+//     clearInterval(chronometer);
+//   }
+
+//   if (timer === 0) {
+//     clearInterval(chronometer);
+//     failureQuestion()
+//   }
+//   document.getElementById("counter").innerHTML = `${timer}`;
+//   timer -= 1;
+// }, 1000)
 
 
