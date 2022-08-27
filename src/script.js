@@ -11,7 +11,7 @@ let count = 0; // iteration counterlet questionsCategory = [] // Array of catego
 let countCorrect = 0; // iterion correct answers
 const theEnd = document.querySelector('#theEnd');
 
-function createChrono() {
+function createChrono(count, result) {
   let timeShow = document.getElementById('timer');
   chrono = setInterval(() => {
     timeShow.innerText = `${time}`;
@@ -19,7 +19,7 @@ function createChrono() {
     if (time < 0) {
       resetChrono();
       count++;
-      failureQuestion();
+      failureQuestion(count, result);
     }
   }, 1000);
 }
@@ -71,7 +71,7 @@ const successQuestion = function (count, result) {
     if (count === result.length - 1) {
       gameFinish();
     } else {
-      resetChrono();
+      resetChrono(count, result);
       countCorrect++;
       count++;
       if (result[count].type === 'boolean') {
@@ -184,27 +184,23 @@ function addQuestionMultiple(count, result) {
   <p id="timer">${time}</p>
   <p>Correct answers : ${countCorrect}</p>
   <h1>${result[count].question}</h1>
-  <button value='True' type="button" class="btn btn-primary answer">${
-    answers[0]
-  }</button>
-  <button value='True' type="button" class="btn btn-primary answer">${
-    answers[1]
-  }</button>
-  <button value='True' type="button" class="btn btn-primary answer">${
-    answers[2]
-  }</button>
-  <button value='True' type="button" class="btn btn-primary answer">${
-    answers[3]
-  }</button>
+  <button value='True' type="button" class="btn btn-primary answer">${answers[0]
+    }</button>
+  <button value='True' type="button" class="btn btn-primary answer">${answers[1]
+    }</button>
+  <button value='True' type="button" class="btn btn-primary answer">${answers[2]
+    }</button>
+  <button value='True' type="button" class="btn btn-primary answer">${answers[3]
+    }</button>
   </div> 
   `;
 
   wrapper.appendChild(bodyQuestion);
-  createChrono();
+  createChrono(count, result);
   let buttons = document.querySelectorAll(`.answer`);
   buttons.forEach((button) => {
     button.addEventListener('click', (e) => {
-      resetChrono();
+      resetChrono(count, result);
       container[0].style.filter = 'blur(4px)';
       if (e.target.innerText === result[count].correct_answer) {
         successQuestion(count, result);
@@ -234,11 +230,11 @@ function addQuestionTrueFalse(count, result) {
   </div> 
   `;
   wrapper.appendChild(bodyQuestion);
-  createChrono();
+  createChrono(count, result);
   let buttons = document.querySelectorAll(`#answer-true, #answer-false`);
   buttons.forEach((button) => {
     button.addEventListener('click', (e) => {
-      resetChrono();
+      resetChrono(count, result);
       container[0].style.filter = 'blur(4px)';
       // this is correct answering
       if (e.target.value === result[count].correct_answer) {
