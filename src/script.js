@@ -1,32 +1,31 @@
 // https://opentdb.com/api.php?amount=15&type=boolean
-let startBtn = document.getElementById('start');
-let bodyCard = document.getElementById('card-container');
-let wrapper = document.getElementById('wrapper');
-let container = document.getElementsByClassName('container');
-let time = 10;
+let startBtn = document.getElementById('start')
+let bodyCard = document.getElementById('card-container')
+let wrapper = document.getElementById('wrapper')
+let container = document.getElementsByClassName('container')
+let time = 10
 // timertesting
 //let finished = false
-let questions = []; // Array of questions
-let count = 0; // iteration counterlet questionsCategory = [] // Array of categorie
-let countCorrect = 0; // iterion correct answers
-const theEnd = document.querySelector('#theEnd');
+let questions = [] // Array of questions
+let count = 0 // iteration counterlet questionsCategory = [] // Array of categorie
+let countCorrect = 0 // iterion correct answers
+const theEnd = document.querySelector('#theEnd')
 
 function createChrono(count, result) {
-  let timeShow = document.getElementById('timer');
+  let timeShow = document.getElementById('timer')
   chrono = setInterval(() => {
-    timeShow.innerText = `${time}`;
+    timeShow.innerText = `${time}`
     time--;
     if (time < 0) {
-      resetChrono();
-      count++;
-      failureQuestion(count, result);
+      resetChrono()
+      failureQuestion(count, result)
     }
-  }, 1000);
+  }, 1000)
 }
 
 function resetChrono() {
-  clearInterval(chrono);
-  time = 10;
+  clearInterval(chrono)
+  time = 10
 }
 
 // function timeDown() {
