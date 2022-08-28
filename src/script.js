@@ -9,8 +9,21 @@ let time = 10;
 let questions = []; // Array of questions
 let count = 0; // iteration counterlet questionsCategory = [] // Array of categorie
 let countCorrect = 0; // iterion correct answers
+let username = localStorage.getItem("username");
+let avatar = localStorage.getItem("avatar");
 const theEnd = document.querySelector("#theEnd");
 
+function checkIfHasLocalstorageIn(value, parameter) {
+  if (value) {
+    return value;
+  } else {
+    if (parameter === "username") {
+      return "Guest";
+    } else if (parameter === "avatar") {
+      return "/images/avatar.png";
+    }
+  }
+}
 function createChrono(count, result) {
   let timeShow = document.getElementById("timer");
   chrono = setInterval(() => {
@@ -41,11 +54,21 @@ function resetChrono() {
 //     },
 //   });
 // }
+function upperCaseMyFirstCharacter(name) {
+  return name.charAt(0).toUpperCase() + name.slice(1);
+}
 
 function addCard(elem, categories, difficulty, numQuestions, type) {
   let body = document.createElement("div");
   body.setAttribute("class", "setting");
   body.innerHTML = `
+  <img id="avatar-card" src="${checkIfHasLocalstorageIn(
+    avatar,
+    "avatar",
+  )}" class="card-img-top col" alt="...">
+  <h1 class="col">Hi @${upperCaseMyFirstCharacter(
+    checkIfHasLocalstorageIn(username, "username"),
+  )} are you Ready?</h1>
 <p id="category" class="card-text" > Categories: ${categories} </p>
 <p id="difficulty" class="card-text">Difficulty: ${difficulty}</p>
 <p id="questions-num" class="card-text">Number of questions : ${numQuestions} </p>
