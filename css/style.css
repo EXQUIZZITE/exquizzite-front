@@ -1,71 +1,79 @@
 body {
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(180deg, #9B2EFD 0%, #592AFC 100%);
-    background-repeat: no-repeat;
-    background-size: contain;
-    margin: auto;
-    display: grid;
-    place-items: center;
-    font-family: 'Montserrat', sans-serif;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(180deg, #9b2efd 0%, #592afc 100%);
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  font-family: "Montserrat", sans-serif;
 }
 
 .container {
-    z-index: 0;
-    margin: auto;
+  z-index: 0;
+  margin: auto;
 }
 
 .card {
-    margin: auto;
-    height: auto;
-    width: 85vw;
-    max-width: 500px;
-    background-color: transparent;
-    border: none;
-    color: white;
-    text-align: center;
+  margin: auto;
+  height: auto;
+  width: 85vw;
+  max-width: 500px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  text-align: center;
 }
 
 .blur {
-    display: none;
-    filter: blur(4px);
+  display: none;
+  filter: blur(4px);
 }
 
 #avatar-card {
-    margin: auto;
-    width: 60%;
+  margin: auto;
+  width: 60%;
 }
 
 .swal2-height-auto {
-    height: 100vh;
-    z-index: 2;
+  height: 100vh;
+  z-index: 2;
 }
 
-.question-button {
-    margin-top: 1em;
+.question-button,
+.btn {
+  margin-top: 1em;
+  background-color: #ffffff;
+  color: #592afc;
+  padding: 1.2rem;
+  border: 1px solid #592afc;
+  font-weight: bolder;
 }
 
-#counter {
-    display: grid;
-    place-items: center;
-    height: 50px;
-    width: 50px;
-    color: blue;
-    background-color: white;
-    border-radius: 100%;
+#timer {
+  display: grid;
+  place-items: center;
+  height: 50px;
+  width: 50px;
+  margin: 10px auto 10px auto;
+  color: blue;
+  background-color: white;
+  border-radius: 100%;
+  text-align: center;
 }
 
 #avatar-container {
-    margin: auto;
-    width: 80%;
-    height: 80%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+  margin: auto;
+  width: 80%;
+  height: 80%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
 }
 
 #logo {
-    margin: auto;
-    width: 55%;
-    margin-bottom: 55%;
+  margin: auto;
+  width: 55%;
+  margin-bottom: 55%;
 }

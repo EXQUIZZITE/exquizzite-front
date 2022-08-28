@@ -1,31 +1,31 @@
 // https://opentdb.com/api.php?amount=15&type=boolean
-let startBtn = document.getElementById('start')
-let bodyCard = document.getElementById('card-container')
-let wrapper = document.getElementById('wrapper')
-let container = document.getElementsByClassName('container')
-let time = 10
+let startBtn = document.getElementById("start");
+let bodyCard = document.getElementById("card-container");
+let wrapper = document.getElementById("wrapper");
+let container = document.getElementsByClassName("container");
+let time = 10;
 // timertesting
 //let finished = false
-let questions = [] // Array of questions
-let count = 0 // iteration counterlet questionsCategory = [] // Array of categorie
-let countCorrect = 0 // iterion correct answers
-const theEnd = document.querySelector('#theEnd')
+let questions = []; // Array of questions
+let count = 0; // iteration counterlet questionsCategory = [] // Array of categorie
+let countCorrect = 0; // iterion correct answers
+const theEnd = document.querySelector("#theEnd");
 
 function createChrono(count, result) {
-  let timeShow = document.getElementById('timer')
+  let timeShow = document.getElementById("timer");
   chrono = setInterval(() => {
-    timeShow.innerText = `${time}`
+    timeShow.innerText = `${time}`;
     time--;
     if (time < 0) {
-      resetChrono()
-      failureQuestion(count, result)
+      resetChrono();
+      failureQuestion(count, result);
     }
-  }, 1000)
+  }, 1000);
 }
 
 function resetChrono() {
-  clearInterval(chrono)
-  time = 10
+  clearInterval(chrono);
+  time = 10;
 }
 
 // function timeDown() {
@@ -43,8 +43,8 @@ function resetChrono() {
 // }
 
 function addCard(elem, categories, difficulty, numQuestions, type) {
-  let body = document.createElement('div');
-  body.setAttribute('class', 'setting');
+  let body = document.createElement("div");
+  body.setAttribute("class", "setting");
   body.innerHTML = `
 <p id="category" class="card-text" > Categories: ${categories} </p>
 <p id="difficulty" class="card-text">Difficulty: ${difficulty}</p>
@@ -55,25 +55,26 @@ function addCard(elem, categories, difficulty, numQuestions, type) {
 }
 
 const successQuestion = function (count, result) {
+  wrapper.innerHTML = "";
   Swal.fire({
-    icon: 'success',
-    title: 'Good job!👌',
-    confirmButtonText: 'Next Question!',
+    icon: "success",
+    title: "Good job!👌",
+    confirmButtonText: "Next Question!",
     showClass: {
-      popup: 'animate__animated animate__fadeInDown',
+      popup: "animate__animated animate__fadeInDown",
     },
     hideClass: {
-      popup: 'animate__animated animate__fadeOutUp',
+      popup: "animate__animated animate__fadeOutUp",
     },
   }).then(() => {
-    container[0].style.filter = 'blur(0px)';
+    container[0].style.filter = "blur(0px)";
     if (count === result.length - 1) {
       gameFinish();
     } else {
       resetChrono(count, result);
       countCorrect++;
       count++;
-      if (result[count].type === 'boolean') {
+      if (result[count].type === "boolean") {
         addQuestionTrueFalse(count, result);
         count++;
       } else {
@@ -84,23 +85,24 @@ const successQuestion = function (count, result) {
   });
 };
 const failureQuestion = function (count, result) {
+  wrapper.innerHTML = "";
   Swal.fire({
-    icon: 'error',
-    title: 'Wrong answer!😱',
-    confirmButtonText: 'Next Question!',
+    icon: "error",
+    title: "Wrong answer!😱",
+    confirmButtonText: "Next Question!",
     showClass: {
-      popup: 'animate__animated animate__fadeInDown',
+      popup: "animate__animated animate__fadeInDown",
     },
     hideClass: {
-      popup: 'animate__animated animate__fadeOutUp',
+      popup: "animate__animated animate__fadeOutUp",
     },
   }).then(() => {
-    container[0].style.filter = 'blur(0px)';
+    container[0].style.filter = "blur(0px)";
     if (count === result.length - 1) {
       gameFinish();
     } else {
       count++;
-      if (result[count].type === 'boolean') {
+      if (result[count].type === "boolean") {
         addQuestionTrueFalse(count, result);
         count++;
       } else {
@@ -114,16 +116,16 @@ const failureQuestion = function (count, result) {
 function gameFinish() {
   if (countCorrect > 7) {
     Swal.fire({
-      icon: 'success',
-      title: 'You Win!👌',
+      icon: "success",
+      title: "You Win!👌",
       showCancelButton: true,
-      cancelButtonText: 'Learn more',
-      confirmButtonText: 'Rematch!?',
+      cancelButtonText: "Learn more",
+      confirmButtonText: "Rematch!?",
       showClass: {
-        popup: 'animate__animated animate__fadeInDown',
+        popup: "animate__animated animate__fadeInDown",
       },
       hideClass: {
-        popup: 'animate__animated animate__fadeOutUp',
+        popup: "animate__animated animate__fadeOutUp",
       },
     }).then((result) => {
       if (result.isConfirmed) {
@@ -131,21 +133,21 @@ function gameFinish() {
         countCorrect = 0;
         startGame();
       } else {
-        window.location.href = 'https://es.wikihow.com/jugar-Trivial-Pursuit';
+        window.location.href = "https://es.wikihow.com/jugar-Trivial-Pursuit";
       }
     });
   } else {
     Swal.fire({
-      icon: 'error',
-      title: 'You lost!👌',
+      icon: "error",
+      title: "You lost!👌",
       showCancelButton: true,
-      confirmButtonText: 'Start new game!',
-      cancelButtonText: 'Learn more',
+      confirmButtonText: "Start new game!",
+      cancelButtonText: "Learn more",
       showClass: {
-        popup: 'animate__animated animate__fadeInDown',
+        popup: "animate__animated animate__fadeInDown",
       },
       hideClass: {
-        popup: 'animate__animated animate__fadeOutUp',
+        popup: "animate__animated animate__fadeOutUp",
       },
     }).then((result) => {
       if (result.isConfirmed) {
@@ -153,7 +155,7 @@ function gameFinish() {
         countCorrect = 0;
         startGame();
       } else {
-        window.location.href = 'https://es.wikihow.com/jugar-Trivial-Pursuit';
+        window.location.href = "https://es.wikihow.com/jugar-Trivial-Pursuit";
       }
     });
   }
@@ -162,20 +164,20 @@ function gameFinish() {
 function addQuestionMultiple(count, result) {
   let getRandom = Math.floor(Math.random() * 4);
   let numQuestion = 0;
-  let answers = ['', '', '', ''];
+  let answers = ["", "", "", ""];
   answers[getRandom] = result[count].correct_answer;
   for (let i = 0; i < 4; i++) {
-    if (answers[i] === '') {
+    if (answers[i] === "") {
       answers[i] = result[count].incorrect_answers[numQuestion];
       numQuestion++;
     }
   }
   //finished = true
-  wrapper.innerHTML = '';
-  let bodyQuestion = document.createElement('div');
+  wrapper.innerHTML = "";
+  let bodyQuestion = document.createElement("div");
   bodyQuestion.setAttribute(
-    'class',
-    'card d-flex flex-column justify-content-center'
+    "class",
+    "card d-flex flex-column justify-content-center",
   );
   bodyQuestion.innerHTML = `
   <div id="wrapper" class="card d-flex flex-column justify-content-center">
@@ -183,14 +185,18 @@ function addQuestionMultiple(count, result) {
   <p id="timer">${time}</p>
   <p>Correct answers : ${countCorrect}</p>
   <h1>${result[count].question}</h1>
-  <button value='True' type="button" class="btn btn-primary answer">${answers[0]
-    }</button>
-  <button value='True' type="button" class="btn btn-primary answer">${answers[1]
-    }</button>
-  <button value='True' type="button" class="btn btn-primary answer">${answers[2]
-    }</button>
-  <button value='True' type="button" class="btn btn-primary answer">${answers[3]
-    }</button>
+  <button value='True' type="button" class="btn btn-primary answer">${
+    answers[0]
+  }</button>
+  <button value='True' type="button" class="btn btn-primary answer">${
+    answers[1]
+  }</button>
+  <button value='True' type="button" class="btn btn-primary answer">${
+    answers[2]
+  }</button>
+  <button value='True' type="button" class="btn btn-primary answer">${
+    answers[3]
+  }</button>
   </div> 
   `;
 
@@ -198,9 +204,9 @@ function addQuestionMultiple(count, result) {
   createChrono(count, result);
   let buttons = document.querySelectorAll(`.answer`);
   buttons.forEach((button) => {
-    button.addEventListener('click', (e) => {
+    button.addEventListener("click", (e) => {
       resetChrono(count, result);
-      container[0].style.filter = 'blur(4px)';
+      container[0].style.filter = "blur(4px)";
       if (e.target.innerText === result[count].correct_answer) {
         successQuestion(count, result);
       } else {
@@ -211,12 +217,12 @@ function addQuestionMultiple(count, result) {
 }
 
 function addQuestionTrueFalse(count, result) {
-  wrapper.innerHTML = '';
+  wrapper.innerHTML = "";
 
-  let bodyQuestion = document.createElement('div');
+  let bodyQuestion = document.createElement("div");
   bodyQuestion.setAttribute(
-    'class',
-    'card d-flex flex-column justify-content-center'
+    "class",
+    "card d-flex flex-column justify-content-center",
   );
   bodyQuestion.innerHTML = `
   <div id="wrapper" class="card d-flex flex-column justify-content-center">
@@ -232,9 +238,9 @@ function addQuestionTrueFalse(count, result) {
   createChrono(count, result);
   let buttons = document.querySelectorAll(`#answer-true, #answer-false`);
   buttons.forEach((button) => {
-    button.addEventListener('click', (e) => {
+    button.addEventListener("click", (e) => {
       resetChrono(count, result);
-      container[0].style.filter = 'blur(4px)';
+      container[0].style.filter = "blur(4px)";
       // this is correct answering
       if (e.target.value === result[count].correct_answer) {
         successQuestion(count, result);
@@ -248,7 +254,7 @@ function addQuestionTrueFalse(count, result) {
 function startGame() {
   theEnd.play();
   axios
-    .get('https://opentdb.com/api.php?amount=15&difficulty=easy')
+    .get("https://opentdb.com/api.php?amount=15&difficulty=easy")
     .then(function (response) {
       let result = response.data.results;
       let questionType = [];
@@ -269,12 +275,12 @@ function startGame() {
         filteredCategories,
         result[0].difficulty,
         result.length,
-        filteredType
+        filteredType,
       );
 
-      wrapper.innerHTML = '';
+      wrapper.innerHTML = "";
       theEnd.play();
-      if (result[0].type === 'boolean') {
+      if (result[0].type === "boolean") {
         addQuestionTrueFalse(count, result);
         count++;
       } else {
@@ -288,7 +294,7 @@ function startGame() {
 }
 
 axios
-  .get('https://opentdb.com/api.php?amount=15&difficulty=easy')
+  .get("https://opentdb.com/api.php?amount=15&difficulty=easy")
   .then(function (response) {
     let result = response.data.results;
     let questionType = [];
@@ -309,13 +315,13 @@ axios
       filteredCategories,
       result[0].difficulty,
       result.length,
-      filteredType
+      filteredType,
     );
 
-    startBtn.addEventListener('click', (e) => {
-      wrapper.innerHTML = '';
+    startBtn.addEventListener("click", (e) => {
+      wrapper.innerHTML = "";
       theEnd.play();
-      if (result[0].type === 'boolean') {
+      if (result[0].type === "boolean") {
         addQuestionTrueFalse(count, result);
         count++;
       } else {
