@@ -5,7 +5,7 @@ let wrapper = document.getElementById("wrapper");
 let container = document.getElementsByClassName("container");
 let time = 10;
 // timertesting
-//let finished = false
+
 let questions = []; // Array of questions
 let count = 0; // iteration counterlet questionsCategory = [] // Array of categorie
 let countCorrect = 0; // iterion correct answers
@@ -41,19 +41,6 @@ function resetChrono() {
   time = 10;
 }
 
-// function timeDown() {
-//   Swal.fire({
-//     icon: 'error',
-//     title: 'Time is out!😱',
-//     confirmButtonText: 'Next Question!',
-//     showClass: {
-//       popup: 'animate__animated animate__fadeInDown',
-//     },
-//     hideClass: {
-//       popup: 'animate__animated animate__fadeOutUp',
-//     },
-//   });
-// }
 function upperCaseMyFirstCharacter(name) {
   return name.charAt(0).toUpperCase() + name.slice(1);
 }
@@ -90,19 +77,19 @@ const successQuestion = function (count, result) {
       popup: "animate__animated animate__fadeOutUp",
     },
   }).then(() => {
-    container[0].style.filter = "blur(0px)";
+    container[0].style.filter = "blur(0px)"
     if (count === result.length - 1) {
-      gameFinish();
+      gameFinish()
     } else {
-      resetChrono(count, result);
-      countCorrect++;
-      count++;
+      resetChrono(count, result)
+      countCorrect++
+      count++
       if (result[count].type === "boolean") {
-        addQuestionTrueFalse(count, result);
-        count++;
+        addQuestionTrueFalse(count, result)
+        count++
       } else {
-        addQuestionMultiple(count, result);
-        count++;
+        addQuestionMultiple(count, result)
+        count++
       }
     }
   });
@@ -122,15 +109,15 @@ const failureQuestion = function (count, result) {
   }).then(() => {
     container[0].style.filter = "blur(0px)";
     if (count === result.length - 1) {
-      gameFinish();
+      gameFinish()
     } else {
-      count++;
+      count++
       if (result[count].type === "boolean") {
-        addQuestionTrueFalse(count, result);
-        count++;
+        addQuestionTrueFalse(count, result)
+        count++
       } else {
-        addQuestionMultiple(count, result);
-        count++;
+        addQuestionMultiple(count, result)
+        count++
       }
     }
   });
@@ -195,7 +182,6 @@ function addQuestionMultiple(count, result) {
       numQuestion++;
     }
   }
-  //finished = true
   wrapper.innerHTML = "";
   let bodyQuestion = document.createElement("div");
   bodyQuestion.setAttribute(
@@ -208,18 +194,14 @@ function addQuestionMultiple(count, result) {
   <p id="timer">${time}</p>
   <p>Correct answers : ${countCorrect}</p>
   <h1>${result[count].question}</h1>
-  <button value='True' type="button" class="btn btn-primary answer">${
-    answers[0]
-  }</button>
-  <button value='True' type="button" class="btn btn-primary answer">${
-    answers[1]
-  }</button>
-  <button value='True' type="button" class="btn btn-primary answer">${
-    answers[2]
-  }</button>
-  <button value='True' type="button" class="btn btn-primary answer">${
-    answers[3]
-  }</button>
+  <button value='True' type="button" class="btn btn-primary answer">${answers[0]
+    }</button>
+  <button value='True' type="button" class="btn btn-primary answer">${answers[1]
+    }</button>
+  <button value='True' type="button" class="btn btn-primary answer">${answers[2]
+    }</button>
+  <button value='True' type="button" class="btn btn-primary answer">${answers[3]
+    }</button>
   </div> 
   `;
 
@@ -235,14 +217,14 @@ function addQuestionMultiple(count, result) {
       } else {
         failureQuestion(count, result);
       }
-    });
-  });
+    })
+  })
 }
 
 function addQuestionTrueFalse(count, result) {
-  wrapper.innerHTML = "";
+  wrapper.innerHTML = ""
 
-  let bodyQuestion = document.createElement("div");
+  let bodyQuestion = document.createElement("div")
   bodyQuestion.setAttribute(
     "class",
     "card d-flex flex-column justify-content-center",
@@ -256,22 +238,22 @@ function addQuestionTrueFalse(count, result) {
   <button id="answer-true" value='True' type="button" class="btn btn-primary">True</button>
   <button id="answer-false" value='False' type="button" class="btn btn-primary">False</button>
   </div> 
-  `;
-  wrapper.appendChild(bodyQuestion);
-  createChrono(count, result);
+  `
+  wrapper.appendChild(bodyQuestion)
+  createChrono(count, result)
   let buttons = document.querySelectorAll(`#answer-true, #answer-false`);
   buttons.forEach((button) => {
     button.addEventListener("click", (e) => {
-      resetChrono(count, result);
-      container[0].style.filter = "blur(4px)";
+      resetChrono(count, result)
+      container[0].style.filter = "blur(4px)"
       // this is correct answering
       if (e.target.value === result[count].correct_answer) {
-        successQuestion(count, result);
+        successQuestion(count, result)
       } else {
-        failureQuestion(count, result);
+        failureQuestion(count, result)
       }
-    });
-  });
+    })
+  })
 }
 
 function startGame() {
@@ -279,19 +261,19 @@ function startGame() {
   axios
     .get("https://opentdb.com/api.php?amount=15&difficulty=easy")
     .then(function (response) {
-      let result = response.data.results;
-      let questionType = [];
-      let questionsCategory = []; // Array of categorie
+      let result = response.data.results
+      let questionType = []
+      let questionsCategory = [] // Array of categorie
 
       // It takes an array of objects, and returns an array of unique values from the category property of each object.
 
       result.forEach((elem) => {
-        questionsCategory.push(elem.category);
-        questionType.push(elem.type);
+        questionsCategory.push(elem.category)
+        questionType.push(elem.type)
       });
 
-      const filteredCategories = [...new Set(questionsCategory)];
-      const filteredType = [...new Set(questionType)];
+      const filteredCategories = [...new Set(questionsCategory)]
+      const filteredType = [...new Set(questionType)]
 
       addCard(
         bodyCard,
@@ -304,34 +286,34 @@ function startGame() {
       wrapper.innerHTML = "";
       theEnd.play();
       if (result[0].type === "boolean") {
-        addQuestionTrueFalse(count, result);
-        count++;
+        addQuestionTrueFalse(count, result)
+        count++
       } else {
-        addQuestionMultiple(count, result);
-        count++;
+        addQuestionMultiple(count, result)
+        count++
       }
     })
     .catch(function (err) {
-      console.error(err);
+      console.error(err)
     });
 }
 
 axios
   .get("https://opentdb.com/api.php?amount=15&difficulty=easy")
   .then(function (response) {
-    let result = response.data.results;
-    let questionType = [];
-    let questionsCategory = []; // Array of categorie
+    let result = response.data.results
+    let questionType = []
+    let questionsCategory = [] // Array of categorie
 
     // It takes an array of objects, and returns an array of unique values from the category property of each object.
 
     result.forEach((elem) => {
-      questionsCategory.push(elem.category);
-      questionType.push(elem.type);
+      questionsCategory.push(elem.category)
+      questionType.push(elem.type)
     });
 
-    const filteredCategories = [...new Set(questionsCategory)];
-    const filteredType = [...new Set(questionType)];
+    const filteredCategories = [...new Set(questionsCategory)]
+    const filteredType = [...new Set(questionType)]
 
     addCard(
       bodyCard,
@@ -345,14 +327,14 @@ axios
       wrapper.innerHTML = "";
       theEnd.play();
       if (result[0].type === "boolean") {
-        addQuestionTrueFalse(count, result);
-        count++;
+        addQuestionTrueFalse(count, result)
+        count++
       } else {
-        addQuestionMultiple(count, result);
-        count++;
+        addQuestionMultiple(count, result)
+        count++
       }
-    });
+    })
   })
   .catch(function (err) {
-    console.error(err);
+    console.error(err)
   });

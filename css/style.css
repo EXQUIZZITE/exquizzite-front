@@ -65,15 +65,26 @@ body {
 
 #avatar-container {
   margin: auto;
-  width: 80%;
-  height: 80%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
 }
 
 #logo {
   margin: auto;
+  height: 55%;
   width: 55%;
   margin-bottom: 55%;
+}
+
+#wrapper-user {
+  max-width: 500px;
+  color: white;
+  margin: auto;
+  width: 50vw;
+}
+
+.avatarselected:hover {
+  transition: 0.3s;
+  transform: scale(1.2);
 }
