@@ -27,7 +27,7 @@ button.addEventListener("click", (e) => {
   user.innerHTML = `
     <h1 id="username_user" class="col">Hi, ${player.username}</h1>
     <img  id="avatar-card" src="${player.avatar}" class="card-img-top col" alt="...">
-    <button id="start" onclick="document.location.href='index.html'" type="button" class="btn btn-primary">Start Game</button>
+    <button id="start" onclick="document.location.href='questions.html'" type="button" class="btn btn-primary">Start Game</button>
     `;
   container.appendChild(user);
   console.log(player);
